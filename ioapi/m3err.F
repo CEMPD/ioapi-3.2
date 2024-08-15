@@ -27,7 +27,8 @@ C  REVISION  HISTORY:
 C	prototype 5/92 by CJC
 C	Revised   8/96 to close currently-open POSIX-OK Fortran units.
 C       Modified  1/97 by CJC to trim trailing blanks from MSGTXT
-C       Modified 10/98 by CJC:  rewritten in terms of m3exit(), m3warn()  
+C       Modified 10/98 by CJC:  rewritten in terms of m3exit(), m3warn()
+C       Modfiied 08/24 by HT: fix garbage binary SMOKE github issue #81
 C***********************************************************************
 
       IMPLICIT NONE
@@ -43,15 +44,19 @@ C...........   ARGUMENTS and their descriptions:
         INTEGER      , INTENT(IN   ) :: JDATE, JTIME    !  model date&time for the error
         CHARACTER*(*), INTENT(IN   ) :: MSGTXT          !  error message
         LOGICAL      , INTENT(IN   ) :: FATAL           !  terminate program iff TRUE
+        INTEGER        L                                ! SMOKE issue #81
 
                  
 C***********************************************************************
 C   begin body of subroutine  M3ERR
 
+        L = LEN_TRIM( MSGTXT )
         IF ( FATAL ) THEN
-            CALL M3EXIT( CALLER, JDATE, JTIME, MSGTXT, 2 )
+c           CALL M3EXIT( CALLER, JDATE, JTIME, MSGTXT, 2 )
+            CALL M3EXIT( CALLER, JDATE, JTIME, MSGTXT(1:L), 2 )
         ELSE    !  not endflag
-            CALL M3WARN( CALLER, JDATE, JTIME, MSGTXT )
+c           CALL M3WARN( CALLER, JDATE, JTIME, MSGTXT )
+            CALL M3WARN( CALLER, JDATE, JTIME, MSGTXT(1:L) )
         END IF
         RETURN
 

@@ -42,11 +42,15 @@ REVISION HISTORY:
 
     Version    6/2014 by CJC:  add specified-length-comparison routines
     SORTINC4(), SORTINC8()
+
+    Modified 08/2024 by HT: add stlib.h header for compiling IOAPI with 
+    Intel oneAPI compiler
 ************************************************************************/
 
 #include  <string.h>
 #include  <stdint.h>
 #include "parms3.h"
+#include  <stdlib.h>
 
                          /**  DEAL WITH  FELDMANISMS  OF MANY UN*X F77'S   **/
 
